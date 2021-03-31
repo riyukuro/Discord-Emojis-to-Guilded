@@ -89,10 +89,9 @@ class main():
     prepend = ('{\n    "name": "%s",\n    "author": "Discord",\n    "emotes": ') % (name)
     file_name = name + '.json'
     
-    with open(file_name, 'w') as file:
-        json.dump(data, file, indent=4)
-
     if len(data) > 50:
+        with open(file_name, 'w') as file:
+            json.dump(data, file, indent=4)
         json_splitter(file_name, name)
     else:
         with open(file_name, 'w') as file:
