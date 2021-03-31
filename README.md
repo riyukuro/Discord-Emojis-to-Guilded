@@ -7,7 +7,7 @@ Requires [Python 3](https://www.python.org/).
 After python is installed, clone the repository or download the [ZIP](https://github.com/riyukuro/Discord-Emojis-to-Guilded/archive/refs/heads/main.zip) and then extract.
 
 ## Usage
-1. Navigate to the directory where you downloaded the files and type `python3 discord-emoji-converter.py` or `python discord-emoji-converter.py`
+1. Navigate to the directory where you downloaded the files and type `python3 discord-emoji-converter.py` or `python discord-emoji-converter.py` in command prompt or terminal.
 2. Enter your discord token.
 
 To get your Discord Token: **(Note: DO NOT SHARE THIS WITH ANYONE)**
