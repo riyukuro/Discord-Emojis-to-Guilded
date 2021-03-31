@@ -10,7 +10,7 @@ After python is installed, clone the repository or download the [ZIP](https://gi
 1. Navigate to the directory where you downloaded the files and type `python3 discord-emoji-converter.py` or `python discord-emoji-converter.py` in command prompt or terminal.
 2. Enter your discord token.
 
-To get your Discord Token: **(Note: DO NOT SHARE THIS WITH ANYONE)**
+To get your Discord Token: **(Note: DO NOT SHARE YOUR TOKEN WITH ANYONE)**
 -  Open the Discord desktop app or login on the Discord website here
 -  Open the Chrome Dev Tools with the keyboard shortcut (F12 or Ctrl + Shift + I)
 -  Go to the Network tab
