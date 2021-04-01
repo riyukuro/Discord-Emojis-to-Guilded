@@ -5,9 +5,10 @@ Easily move discord emojis to guilded.gg.
 Requires [Python 3](https://www.python.org/).
 
 After python is installed, clone the repository or download the [ZIP](https://github.com/riyukuro/Discord-Emojis-to-Guilded/archive/refs/heads/main.zip) and then extract.
+- Note: You may need to run `pip install requests` if you you are using a fresh install of python or if havent used it in another project before.
 
 ## Usage
-1. Navigate to the directory where you downloaded the files and type `python3 discord-emoji-converter.py` or `python discord-emoji-converter.py` in command prompt or terminal.
+1. Navigate to the directory where you downloaded the files through command prompt or powershell (Terminal on Mac/Linux) (ex. `cd C:\users\xxxx\downloads\Discord-Emojis-to-Guilded-main` or `Shift+Right Click` inside of the folder and click `open command window here`) and type `python discord-emoji-converter.py` or `python3 discord-emoji-converter.py` in command prompt or terminal.
 2. Enter your discord token.
 
 To get your Discord Token: **(Note: DO NOT SHARE YOUR TOKEN WITH ANYONE)**
