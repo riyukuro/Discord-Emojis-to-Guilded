@@ -70,16 +70,11 @@ class main():
     data = json.loads(r.text)
     
     for x in data:
-        del x['roles']
-        del x['require_colons']
-        del x['managed']
-        del x['available']
+        del x['roles'], x['require_colons'], x['managed'], x['available']
         x['url'] = 'https://cdn.discordapp.com/emojis/' + x.pop('id')
 
-        if x["animated"]:
-            x["url"] += ".gif"
-        else:
-            x["url"] += ".png"
+        if x["animated"]: x["url"] += ".gif"
+        else: x["url"] += ".png"
         
         del x['animated']
 
