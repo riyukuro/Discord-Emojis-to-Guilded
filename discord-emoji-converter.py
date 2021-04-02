@@ -63,7 +63,8 @@ def format_json(token, guild_id):
     data = json.loads(r.text)
     
     for x in data:
-        del x['roles'], x['require_colons'], x['managed'], x['available'], x['user']
+        del x['roles'], x['require_colons'], x['managed'], x['available']
+        if 'user' in x: del x['user']
         x['url'] = 'https://cdn.discordapp.com/emojis/' + x.pop('id')
 
         if x["animated"]: x["url"] += ".gif"
