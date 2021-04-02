@@ -1,16 +1,12 @@
 import json
+import requests
 
 # Credits to https://github.com/jhsu98/ for Json-Splitter.
 def json_splitter(file_name, name):
-    import sys
     import os
     import math
 
     prepend = ('{\n    "name": "%s",\n    "author": "Discord",\n    "emotes": ') % (name)
-
-    if sys.version_info[0] < 3:
-        print('This script requires Python 3 or higher')
-        exit()
 
     try:
         f = open(file_name)
@@ -51,21 +47,18 @@ def json_splitter(file_name, name):
             file.write('\n}')
         print('Part',str(i+1),'... completed')
         file.close()
+    f.close()
     os.remove(file_name)
     print('Success!')
 
-class main():
-    import requests
-
-    token = input('Enter your Discord Token: ')
-    guild_id = input('Enter the Server Guild ID: ')
+def format_json(token, guild_id):
 
     url = 'https://discord.com/api/v6/guilds/' + guild_id + '/emojis'
     headers = {"Authorization": token}
     r = requests.get(url, headers=headers)
 
     if r.status_code == 200: pass
-    else: print('Error:' + r.status_code), exit()
+    else: print('Error:' + str(r.status_code)), exit()
 
     data = json.loads(r.text)
     
@@ -80,7 +73,7 @@ class main():
 
     print('Total Emotes: ' + str(len(data)))
 
-    name = input('Please enter a emote pack name: ')
+    name = input('\nPlease enter a emote pack name: ')
     prepend = ('{\n    "name": "%s",\n    "author": "Discord",\n    "emotes": ') % (name)
     file_name = name + '.json'
     
@@ -96,4 +89,48 @@ class main():
             json.dump(data, file, indent=4)
         with open(file_name, 'a') as file:
             file.write('\n}')
+        file.close()
         print('Success!')
+
+def list_guild_ids(token):
+    url = 'https://discord.com/api/v6/users/@me/guilds'
+    headers = {"Authorization": token}
+    r = requests.get(url, headers=headers)
+
+    if r.status_code == 200: pass
+    else: print('Error:' + str(r.status_code)), exit()
+
+    data = json.loads(r.text)
+    for x in data:
+        print(x['name'] + ', ' + x['id'])
+    return(data)
+
+class main():
+    from sys import version_info
+
+    if version_info[0] < 3:
+        print('This script requires Python 3 or higher')
+        exit()
+    
+    token = input('Enter your Discord Token: ')
+
+    guild_id = str(input("Enter discord guild IDs, seperated by commas, here [Type '?' For a list of Servers IDs]: "))
+    
+    while guild_id:
+        if guild_id == '?': 
+            guild_id is True
+            list_guild_ids(token)
+            guild_id = str(input('Guild IDS HERE: '))
+        else: 
+            guild_id_list = list()
+            guild_ids = guild_id.split(',')
+            for i in guild_ids: guild_id_list.append(str(i))
+
+        count = 0
+        length = len(guild_id_list)
+
+        for i in guild_id_list:
+            print('\nServer #: ' + str(count + 1))
+            format_json(token, i)
+            count += 1
+        while count <= length: guild_id is True, exit()
