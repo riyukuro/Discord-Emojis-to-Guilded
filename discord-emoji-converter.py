@@ -43,14 +43,14 @@ def json_splitter(file_name, name):
         
         # create file when section is complete
         name = os.path.basename(file_name).split('.')[0] + '_' + str(i+1) + '.json'
-        with open(name, 'w') as outfile:
-            outfile.seek(0)
-            outfile.write(prepend)
-            json.dump(split_data[i], outfile, indent=4)
-        with open(name, 'a') as outfile:
-            outfile.write('\n}')
-            
+        with open(name, 'w') as file:
+            file.seek(0)
+            file.write(prepend)
+            json.dump(split_data[i], file, indent=4)
+        with open(name, 'a') as file:
+            file.write('\n}')
         print('Part',str(i+1),'... completed')
+        file.close()
     os.remove(file_name)
     print('Success!')
 
@@ -87,6 +87,7 @@ class main():
     if len(data) > 50:
         with open(file_name, 'w') as file:
             json.dump(data, file, indent=4)
+        file.close()
         json_splitter(file_name, name)
     else:
         with open(file_name, 'w') as file:
