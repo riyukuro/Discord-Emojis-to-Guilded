@@ -21,7 +21,7 @@ To get your Discord Token: **(Note: DO NOT SHARE YOUR TOKEN WITH ANYONE)**
 -  Go to the Headers tab
 -  Find authorization under Request Headers and copy your token (make sure you copy the entire token and don't copy any spaces)
 
-3. Enter the Guild Server ID(s). 
+3. Enter the Discord Server ID(s). 
 - To get this: Type `?` or right click the server icon of the server you want to take the emotes from and click `Copy ID`.
 - For multiple servers at once seperate them by a comma. (ex. `779528208566845440, 779415495106494484, 779113451456692246`)
 
