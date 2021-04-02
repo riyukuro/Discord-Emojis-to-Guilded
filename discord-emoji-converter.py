@@ -63,7 +63,7 @@ def format_json(token, guild_id):
     data = json.loads(r.text)
     
     for x in data:
-        del x['roles'], x['require_colons'], x['managed'], x['available']
+        del x['roles'], x['require_colons'], x['managed'], x['available'], x['user']
         x['url'] = 'https://cdn.discordapp.com/emojis/' + x.pop('id')
 
         if x["animated"]: x["url"] += ".gif"
@@ -113,24 +113,22 @@ class main():
         exit()
     
     token = input('Enter your Discord Token: ')
-
-    guild_id = str(input("Enter discord guild IDs, seperated by commas, here [Type '?' For a list of Servers IDs]: "))
     
-    while guild_id:
-        if guild_id == '?': 
-            guild_id is True
-            list_guild_ids(token)
-            guild_id = str(input('Guild IDS HERE: '))
-        else: 
-            guild_id_list = list()
-            guild_ids = guild_id.split(',')
-            for i in guild_ids: guild_id_list.append(str(i))
+    while True:
+        guild_id = str(input("Enter discord guild IDs, seperated by commas, here [Type '?' For a list of Servers IDs]: "))
+        if guild_id == '?': list_guild_ids(token)
+        else: break
 
-        count = 0
-        length = len(guild_id_list)
+    guild_id_list = list()
+    guild_ids = guild_id.split(',')
+    for i in guild_ids: guild_id_list.append(str(i))
 
-        for i in guild_id_list:
-            print('\nServer #: ' + str(count + 1))
-            format_json(token, i)
-            count += 1
-        while count <= length: guild_id is True, exit()
+    count = 0
+    length = len(guild_id_list)
+    print(length)
+
+    for i in guild_id_list:
+        print('\nServer #: ' + str(count + 1))
+        format_json(token, i)
+        count += 1
+    exit()
