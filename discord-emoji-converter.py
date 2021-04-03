@@ -63,14 +63,16 @@ def format_json(token, guild_id):
     data = json.loads(r.text)
     
     for x in data:
-        del x['roles'], x['require_colons'], x['managed'], x['available']
-        if 'user' in x: del x['user']
+        keys_to_remove = ('roles', 'require_colons', 'managed', 'available')
+        for k in keys_to_remove: x.pop(k, None)
+        if 'user' in x: x.pop('user')
+
         x['url'] = 'https://cdn.discordapp.com/emojis/' + x.pop('id')
 
         if x["animated"]: x["url"] += ".gif"
         else: x["url"] += ".png"
         
-        del x['animated']
+        x.pop('animated')
 
     print('Total Emotes: ' + str(len(data)))
 
@@ -104,7 +106,7 @@ def list_guild_ids(token):
     data = json.loads(r.text)
     for x in data:
         print(x['name'] + ', ' + x['id'])
-    return(data)
+    return
 
 class main():
     from sys import version_info
