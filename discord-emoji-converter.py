@@ -1,56 +1,6 @@
 import json
 import requests
 
-# Credits to https://github.com/jhsu98/ for Json-Splitter.
-def json_splitter(file_name, name):
-    import os
-    import math
-
-    prepend = ('{\n    "name": "%s",\n    "author": "Discord",\n    "emotes": ') % (name)
-
-    try:
-        f = open(file_name)
-        file_size = os.path.getsize(file_name)
-        data = json.load(f)
-        data_len = len(data)
-
-    except:
-        print('Error loading JSON file ... exiting')
-        exit()
-
-    mb_per_file = abs(float(0.0055))
-
-    # determine number of files necessary
-    num_files = math.ceil(file_size/(mb_per_file*1000000))
-    print('File will be split into',num_files,'equal parts')
-
-    # initialize 2D array
-    split_data = [[] for i in range(0,num_files)]
-
-    # determine indices of cutoffs in array
-    starts = [math.floor(i * data_len/num_files) for i in range(0,num_files)]
-    starts.append(data_len)
-
-    # loop through 2D array
-    for i in range(0,num_files):
-        # loop through each range in array
-        for n in range(starts[i],starts[i+1]):
-            split_data[i].append(data[n])
-        
-        # create file when section is complete
-        name = os.path.basename(file_name).split('.')[0] + '_' + str(i+1) + '.json'
-        with open(name, 'w') as file:
-            file.seek(0)
-            file.write(prepend)
-            json.dump(split_data[i], file, indent=4)
-        with open(name, 'a') as file:
-            file.write('\n}')
-        print('Part',str(i+1),'... completed')
-        file.close()
-    f.close()
-    os.remove(file_name)
-    print('Success!')
-
 def format_json(token, guild_id):
 
     url = 'https://discord.com/api/v6/guilds/' + guild_id + '/emojis'
@@ -77,21 +27,29 @@ def format_json(token, guild_id):
     print('Total Emotes: ' + str(len(data)))
 
     name = input('\nPlease enter a emote pack name: ')
-    prepend = ('{\n    "name": "%s",\n    "author": "Discord",\n    "emotes": ') % (name)
-    file_name = name + '.json'
-    
+    prepend_dict = {'name':'', 'author':'Discord', 'emotes':''}
+
     if len(data) > 50:
-        with open(file_name, 'w') as file:
-            json.dump(data, file, indent=4)
-        file.close()
-        json_splitter(file_name, name)
+        chunks = [data[x:x+50] for x in range(0, len(data), 50)]
+
+        for i in range(0, len(chunks)):
+            file_name = name + '_' + str(i+1) + '.json'
+            prepend_dict['emotes'] = chunks[i]
+            prepend_dict['name'] = name + '_' + str(i+1)
+
+            with open(file_name, 'w') as file:
+                json.dump(prepend_dict, file, indent=4)
+            file.close()
+
+            print('Part',str(i+1),'completed.')
+        print('Success!')
+
     else:
-        with open(file_name, 'w') as file:
-            file.seek(0)
-            file.write(prepend)
-            json.dump(data, file, indent=4)
-        with open(file_name, 'a') as file:
-            file.write('\n}')
+        file_name2 = name + '.json'
+        prepend_dict['name'] = name
+        prepend_dict['emotes'] = data
+        with open(file_name2, 'w') as file:
+            json.dump(prepend_dict, file, indent=4)
         file.close()
         print('Success!')
 
@@ -118,7 +76,7 @@ class main():
     token = input('Enter your Discord Token: ')
     
     while True:
-        guild_id = str(input("Enter discord guild IDs, seperated by commas, here [Type '?' For a list of Servers IDs]: "))
+        guild_id = str(input("Enter discord guild IDs, seperated by commas [Type '?' For a list of Servers IDs]: "))
         if guild_id == '?': list_guild_ids(token)
         else: break
 
@@ -127,8 +85,7 @@ class main():
     for i in guild_ids: guild_id_list.append(str(i))
 
     count = 0
-    length = len(guild_id_list)
-    print(length)
+    print('You Have entered',len(guild_id_list),'server(s)')
 
     for i in guild_id_list:
         print('\nServer #: ' + str(count + 1))
