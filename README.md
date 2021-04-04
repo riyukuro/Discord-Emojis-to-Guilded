@@ -34,6 +34,3 @@ Note: If there are more than 50 emotes on the server the file will be split into
 2. Open the emotes page on your Guilded.gg server.
 3. Click `import an external emote pack`
 4. Paste the url to the .json file.
-
-
-Credits to https://github.com/jhsu98/ for json-splitter.
