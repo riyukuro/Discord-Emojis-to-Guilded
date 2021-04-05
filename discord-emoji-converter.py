@@ -1,7 +1,8 @@
 import json
 import requests
+import re
 
-def format_json(token, guild_id):
+def format_json(token, guild_id, name):
 
     url = 'https://discord.com/api/v6/guilds/' + guild_id + '/emojis'
     headers = {"Authorization": token}
@@ -25,8 +26,7 @@ def format_json(token, guild_id):
         x.pop('animated')
 
     print('Total Emotes: ' + str(len(data)))
-
-    name = input('\nPlease enter a emote pack name: ')
+    
     prepend_dict = {'name':'', 'author':'Discord', 'emotes':''}
 
     if len(data) > 50:
@@ -61,10 +61,12 @@ def list_guild_ids(token):
     if r.status_code == 200: pass
     else: print('Error:' + str(r.status_code)), exit()
 
-    data = json.loads(r.text)
-    for x in data:
-        print(x['name'] + ', ' + x['id'])
-    return
+    guild_data = json.loads(r.text)
+
+    for x in guild_data:
+        key_to_remove = ('icon', 'owner', 'permissions', 'features', 'permissions_new')
+        for k in key_to_remove: x.pop(k, None)
+    return json.dumps(guild_data)
 
 class main():
     from sys import version_info
@@ -74,21 +76,33 @@ class main():
         exit()
     
     token = input('Enter your Discord Token: ')
+
+    guild_data = json.loads(list_guild_ids(token))
     
     while True:
         guild_id = str(input("Enter discord guild IDs, seperated by commas [Type '?' For a list of Servers IDs]: "))
-        if guild_id == '?': list_guild_ids(token)
+        if guild_id == '?': 
+            for i in guild_data: 
+                print(i['name'],i['id'])
         else: break
 
     guild_id_list = list()
-    guild_ids = guild_id.split(',')
-    for i in guild_ids: guild_id_list.append(str(i))
+    guild_ids = guild_id.split(', ')
+    for i in guild_ids: 
+        guild_id_list.append(str(i))
+
+    source_name = list()
+    
+    for i in range(0, len(guild_id_list)):
+        for x in guild_data:
+            if guild_id_list[i] == x['id']: 
+                source_name.append(re.sub(r'\W+','', x['name']))
 
     count = 0
     print('You Have entered',len(guild_id_list),'server(s)')
 
     for i in guild_id_list:
         print('\nServer #: ' + str(count + 1))
-        format_json(token, i)
+        format_json(token, i, source_name[count])
         count += 1
     exit()
