@@ -25,8 +25,6 @@ To get your Discord Token: **(Note: DO NOT SHARE YOUR TOKEN WITH ANYONE)**
 - To get this: Type `?` or right click the server icon of the server you want to take the emotes from and click `Copy ID`.
 - For multiple servers at once seperate them by a comma. (ex. `779528208566845440, 779415495106494484, 779113451456692246`)
 
-4. Enter a name. (This will be the file name and otherwise doesn't matter)
-
 Note: If there are more than 50 emotes on the server the file will be split into parts.
 
 ## To Use the Emote Pack
